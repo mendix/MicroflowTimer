@@ -9,8 +9,8 @@
     @version   : 2.0
     @author    : Pauline Oudeman
     @date      : Mon, 23 Feb 2015 12:26:02 GMT
-    @copyright : 
-    @license   : 
+    @copyright : Mendix Technology BV
+	@license   : Apache License, Version 2.0, January 2004
 
     Documentation
     ========================
