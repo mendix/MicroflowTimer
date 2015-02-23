@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="MicroflowTimer.widget.MicroflowTimer" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>MicroflowTimer</name>
+    <description>The description of this widget.</description>
+
+    <icon></icon>
+
+    <properties>
+        <property key="interval" type="integer" defaultValue="30000">
+            <caption>Interval (in ms)</caption>
+            <category>Behavior</category>
+            <description>
+                Defines how often the microflow is called. Note that the inteval is in milliseconds, so the default, 30000, equals 30 seconds. Note that, unless Execute Once is set to true, the microflow is invoked immediately after loading the form for the first time.
+            </description>
+        </property>
+        <property key="once" type="boolean" defaultValue="false">
+            <caption>Execute once</caption>
+            <category>Behavior</category>
+            <description>If true, the microflow will be invoked only once, and interval defines after how many seconds.</description>
+        </property>
+        <property key="startatonce" type="boolean" defaultValue="true">
+            <caption>Start at once</caption>
+            <category>Behavior</category>
+            <description>If true (and execute once is true), the microflow will be invoked the first time if the widget has loaded. If false, the microflow will be invoked the first time after interval has passed.</description>
+        </property>
+        <property key="microflow" type="microflow" required="true">
+            <caption>Microflow</caption>
+            <category>Behavior</category>
+            <description>The microflow to be executed. If the microflow returns false, it will not be executed any longer until the context changes.</description>
+            <returnType type="Boolean" />
+        </property>
+    </properties>
+</widget>
+
