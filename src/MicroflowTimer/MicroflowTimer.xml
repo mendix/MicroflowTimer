@@ -21,7 +21,7 @@
         <property key="startatonce" type="boolean" defaultValue="true">
             <caption>Start at once</caption>
             <category>Behavior</category>
-            <description>If true (and execute once is true), the microflow will be invoked the first time if the widget has loaded. If false, the microflow will be invoked the first time after interval has passed.</description>
+            <description>If true (and execute once is false), the microflow will be invoked the first time if the widget has loaded. If false, the microflow will be invoked the first time after interval has passed.</description>
         </property>
         <property key="microflow" type="microflow" required="true">
             <caption>Microflow</caption>
