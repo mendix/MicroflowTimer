@@ -74,10 +74,6 @@ require([
         uninitialize: function () {
             // Clean up listeners, helper objects, etc. There is no need to remove listeners added with this.connect / this.subscribe / this.own.
             this._stopTimer();
-            if (this._handle) {
-                this.unsubscribe(this._handle);
-                this._handle = null;
-            }
         },
 
         _runTimer: function () {
