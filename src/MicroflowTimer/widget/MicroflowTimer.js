@@ -98,9 +98,11 @@ require([
             }
         },
 
-        _execMf: function () {            
+        _execMf: function () { 
             console.log(this.id + '._execMf');
-            var guids = [this._contextObj.getGuid()],
+            
+            var self = this,
+                guids = [this._contextObj.getGuid()],
                 mf = this.microflow;
                 mx.data.action({
                     params: {
@@ -111,7 +113,7 @@ require([
                     callback: function (result) {
                         if (!result) {
                             console.log('stopping timer');
-                            this._stopTimer();
+                            self._stopTimer();
                             //this._blocked = false;
                         }
                     },
