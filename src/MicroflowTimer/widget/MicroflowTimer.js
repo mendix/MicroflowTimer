@@ -120,7 +120,7 @@ require([
                     error: function (error) {
                         console.warn('Error executing mf: ', error);
                     }
-                }, this);
+                });
         }
     });
 });
