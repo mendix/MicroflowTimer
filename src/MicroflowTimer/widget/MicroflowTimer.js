@@ -24,6 +24,7 @@ require([
         _contextObj: null,
         _timer: null,
         _blocked : null,
+        _timerStarted: false,
 
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function () {
@@ -35,7 +36,9 @@ require([
             console.log(this.id + '.update');
 
             this._contextObj = obj;
-            this._runTimer();
+            if (!this._timerStarted) {
+                this._runTimer();
+            }
 
             callback();
         },
@@ -64,6 +67,7 @@ require([
         _runTimer: function () {
             console.log(this.id + '._runTimer', this.interval);
             if (this.microflow !== "" && this._contextObj) {
+                this._timerStarted = true;
                 if (this.once) {
                     setTimeout(lang.hitch(this, this._execMf), this.interval);
                 } else {
