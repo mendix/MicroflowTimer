@@ -87,9 +87,9 @@ require([
             }
         },
 
-        _execMf: function () { 
+        _execMf: function () {
             console.log(this.id + '._execMf');
-            
+
             var self = this,
                 guids = [this._contextObj.getGuid()],
                 mf = this.microflow;
@@ -98,6 +98,9 @@ require([
                         applyto: "selection",
                         actionname: mf,
                         guids: guids
+                    },
+                    store: {
+                        caller: this.mxform
                     },
                     callback: function (result) {
                         if (!result) {
