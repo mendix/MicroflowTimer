@@ -165,14 +165,12 @@ define([
             logger.debug(this.id + "._execMf");
 
             if (this._contextObj && this.microflow !== "") {
-                mx.data.action({
+
+                var microflowAction = {
                     params: {
                         applyto: "selection",
                         actionname: this.microflow,
                         guids: [this._contextObj.getGuid()]
-                    },
-                    store: {
-                        caller: this.mxform
                     },
                     callback: lang.hitch(this, function(result) {
                         if (!result) {
@@ -183,7 +181,16 @@ define([
                     error: function(error) {
                         console.warn("Error executing mf: ", error);
                     }
-                });
+                };
+                if (!mx.version || parseInt(mx.version.split(".")[0], 10) < 6) {
+                    microflowAction.store = {
+                        caller: this.mxform
+                    };
+                } else {
+                    microflowAction.origin = this.mxform;
+                }
+
+                mx.data.action(microflowAction);
             }
         },
 
