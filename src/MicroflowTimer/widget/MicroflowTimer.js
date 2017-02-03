@@ -169,7 +169,6 @@ define([
                 var microflowAction = {
                     params: {
                         applyto: "selection",
-                        actionname: this.microflow,
                         guids: [this._contextObj.getGuid()]
                     },
                     callback: lang.hitch(this, function(result) {
@@ -186,11 +185,9 @@ define([
                     microflowAction.store = {
                         caller: this.mxform
                     };
-                } else {
-                    microflowAction.origin = this.mxform;
                 }
 
-                mx.data.action(microflowAction);
+                mx.ui.action(this.microflow, microflowAction);
             }
         },
 
