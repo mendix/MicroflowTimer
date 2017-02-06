@@ -181,11 +181,6 @@ define([
                         console.warn("Error executing mf: ", error);
                     }
                 };
-                if (!mx.version || parseInt(mx.version.split(".")[0], 10) < 6) {
-                    microflowAction.store = {
-                        caller: this.mxform
-                    };
-                }
 
                 mx.ui.action(this.microflow, microflowAction);
             }
