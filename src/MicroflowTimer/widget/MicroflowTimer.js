@@ -163,11 +163,14 @@ define([
 
         _execMf: function() {
             logger.debug(this.id + "._execMf");
+            if (!this._contextObj) {
+                return;
+            }
 
-            if (this._contextObj && this.microflow !== "") {
-
-                var microflowAction = {
+            if (this.microflow) {
+                var mfObject = {
                     params: {
+                        actionname: this.microflow,
                         applyto: "selection",
                         guids: [this._contextObj.getGuid()]
                     },
@@ -177,12 +180,20 @@ define([
                             this._stopTimer();
                         }
                     }),
-                    error: function(error) {
-                        console.warn("Error executing mf: ", error);
-                    }
+                    error: lang.hitch(this, function(error) {
+                        logger.error(this.id + ": An error ocurred while executing microflow: ", error);
+                    })
                 };
+                if (!mx.version || mx.version && parseInt(mx.version.split(".")[0]) < 7) {
+                    // < Mendix 7
+                    mfObject.store = {
+                        caller: this.mxform
+                    };
+                } else {
+                    mfObject.origin = this.mxform;
+                }
 
-                mx.ui.action(this.microflow, microflowAction);
+                mx.data.action(mfObject, this);
             }
         },
 
