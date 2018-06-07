@@ -12,7 +12,9 @@ define([
         interval: 30000,
         once: false,
         startatonce: true,
+        callEvent: null,
         microflow: "",
+        nanoflow: "",
         firstIntervalAttr: null,
         intervalAttr: null,
         timerStatusAttr: null,
@@ -113,7 +115,7 @@ define([
 
         _runTimer: function() {
             logger.debug(this.id + "._runTimer", this.interval);
-            if (this.microflow !== "" && this._contextObj) {
+            if (this.callEvent !== "" && this._contextObj) {
                 this._timerStarted = true;
 
                 //if there's a first interval, get and use that first, then use the regular interval
@@ -121,25 +123,25 @@ define([
                     var firstInterval = this._contextObj.get(this.firstIntervalAttr);
 
                     if (this.once) {
-                        this._timeout = setTimeout(lang.hitch(this, this._execMf), firstInterval);
+                        this._timeout = setTimeout(lang.hitch(this, this._executeEvent), firstInterval);
                     } else {
                         if (this.startatonce) {
-                            this._execMf();
+                            this._executeEvent();
                         }
                         this._timeout = setTimeout(lang.hitch(this, function() {
-                            this._execMf();
-                            this._timer = setInterval(lang.hitch(this, this._execMf), this.interval);
+                            this._executeEvent();
+                            this._timer = setInterval(lang.hitch(this, this._executeEvent), this.interval);
                         }), firstInterval);
                     }
                     //otherwise just use the regulat interval
                 } else {
                     if (this.once) {
-                        this._timeout = setTimeout(lang.hitch(this, this._execMf), this.interval);
+                        this._timeout = setTimeout(lang.hitch(this, this._executeEvent), this.interval);
                     } else {
                         if (this.startatonce) {
-                            this._execMf();
+                            this._executeEvent();
                         }
-                        this._timer = setInterval(lang.hitch(this, this._execMf), this.interval);
+                        this._timer = setInterval(lang.hitch(this, this._executeEvent), this.interval);
                     }
                 }
             }
@@ -158,6 +160,14 @@ define([
                 logger.debug(this.id + "._stopTimer timeout cleared");
                 clearTimeout(this._timeout);
                 this._timeout = null;
+            }
+        },
+
+        _executeEvent: function() {
+            if(this.callEvent == "callMicroflow") {
+                this._execMf()
+            } else {
+                this._executeNanoFlow()
             }
         },
 
@@ -194,6 +204,30 @@ define([
                 }
 
                 mx.data.action(mfObject, this);
+            }
+        },
+
+        _executeNanoFlow: function() {
+            logger.debug(this.id + "._executeNanoFlow");
+            if (!this._contextObj) {
+                return;
+            }
+
+            if (this.nanoflow.nanoflow) {
+                mx.data.callNanoflow({
+                    nanoflow: this.nanoflow,
+                    origin: this.mxform,
+                    context: this.mxcontext,
+                    callback: lang.hitch(this, function(result) {
+                        if (!result) {
+                            logger.debug(this.id + "._executeNanoFlow callback, stopping timer");
+                            this._stopTimer();
+                        }
+                    }),
+                    error: lang.hitch(this, function(error) {
+                        logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
+                    })
+                });
             }
         },
 
