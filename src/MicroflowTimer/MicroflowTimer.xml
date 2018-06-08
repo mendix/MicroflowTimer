@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="MicroflowTimer.widget.MicroflowTimer" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
     <name>MicroflowTimer</name>
-    <description>The description of this widget.</description>
+    <description>The description of this widget</description>
     <icon></icon>
 
     <properties>
         <property key="interval" type="integer" defaultValue="30000">
             <caption>Interval (in ms)</caption>
             <category>Behavior</category>
-            <description>Defines how often the microflow is called. Note that the inteval is in milliseconds, so the default, 30000, equals 30 seconds. Note that, unless Execute Once is set to true, the microflow is invoked immediately after loading the form for the first time. </description>
+            <description>Defines how often the microflow is called. Note that the inteval is in milliseconds, so the default, 30000, equals 30 seconds. Note that, unless Execute Once is set to true, the microflow is invoked immediately after loading the form for the first time</description>
         </property>
         <property key="once" type="boolean" defaultValue="false">
             <caption>Execute once</caption>
             <category>Behavior</category>
-            <description>If true, the microflow will be invoked only once, and interval defines after how many seconds.</description>
+            <description>If true, the microflow will be invoked only once, and interval defines after how many seconds</description>
         </property>
         <property key="startatonce" type="boolean" defaultValue="true">
             <caption>Start at once</caption>
             <category>Behavior</category>
-            <description>If true (and execute once is false), the microflow will be invoked the first time if the widget has loaded. If false, the microflow will be invoked the first time after interval has passed.</description>
+            <description>If true (and execute once is false), the microflow will be invoked the first time if the widget has loaded. If false, the microflow will be invoked the first time after interval has passed</description>
         </property>
         <property key="callEvent" type="enumeration" defaultValue="callMicroflow">
             <caption>Call event</caption>
@@ -32,19 +32,19 @@
         <property key="microflow" type="microflow" required="false">
             <caption>Microflow</caption>
             <category>Behavior</category>
-            <description>The microflow to be executed. If the microflow returns false, it will not be executed any longer until the context changes.</description>
+            <description>The microflow to be executed. If the microflow returns false, it will not be executed any longer until the context changes</description>
             <returnType type="Boolean"/>
         </property>
         <property key="nanoflow" type="nanoflow" required="false">
             <caption>Nanoflow</caption>
             <category>Behavior</category>
-            <description>The nanoflow to be executed. If the nanoflow returns false, it will not be executed any longer until the context changes.</description>
+            <description>The nanoflow to be executed. If the nanoflow returns false, it will not be executed any longer until the context changes</description>
             <returnType type="Boolean"/>
         </property>
         <property key="firstIntervalAttr" type="attribute" required="false">
             <caption>First tick delay</caption>
             <category>Context</category>
-            <description>An optional attribute on the context entity, indicating a custom first interval (in milliseconds). This could be used for continuing a timer that ticks once per minute, but should wait for 60 seconds thereafter.</description>
+            <description>An optional attribute on the context entity, indicating a custom first interval (in milliseconds). This could be used for continuing a timer that ticks once per minute, but should wait for 60 seconds thereafter</description>
             <attributeTypes>
                 <attributeType name="Integer"/>
             </attributeTypes>
@@ -52,7 +52,7 @@
         <property key="intervalAttr" type="attribute" required="false">
             <caption>Interval Attribute (in ms)</caption>
             <category>Context</category>
-            <description>Defines how often the microflow is called using an attribute. If set, overrides the interval specified below.</description>
+            <description>Defines how often the microflow is called using an attribute. If set, overrides the interval specified below</description>
             <attributeTypes>
                 <attributeType name="Integer"/>
             </attributeTypes>
@@ -60,7 +60,7 @@
         <property key="timerStatusAttr" type="attribute" required="false">
             <caption>Timer Status Attribute</caption>
             <category>Context</category>
-            <description>An optional attribute on the context entity, indicating the status of the timer.</description>
+            <description>An optional attribute on the context entity, indicating the status of the timer</description>
             <attributeTypes>
                 <attributeType name="Boolean"/>
             </attributeTypes>

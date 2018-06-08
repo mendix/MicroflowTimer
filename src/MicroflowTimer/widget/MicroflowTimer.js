@@ -12,9 +12,9 @@ define([
         interval: 30000,
         once: false,
         startatonce: true,
-        callEvent: null,
+        callEvent: "callMicroflow" | "callNanoflow",
         microflow: "",
-        nanoflow: "",
+        nanoflow: null,
         firstIntervalAttr: null,
         intervalAttr: null,
         timerStatusAttr: null,
@@ -164,7 +164,7 @@ define([
         },
 
         _executeEvent: function() {
-            if(this.callEvent == "callMicroflow") {
+            if(this.callEvent === "callMicroflow") {
                 this._execMf()
             } else {
                 this._executeNanoFlow()
@@ -213,7 +213,7 @@ define([
                 return;
             }
 
-            if (this.nanoflow.nanoflow) {
+            if (this.nanoflow.nanoflow && this.mxcontext) {
                 mx.data.callNanoflow({
                     nanoflow: this.nanoflow,
                     origin: this.mxform,
@@ -225,7 +225,7 @@ define([
                         }
                     }),
                     error: lang.hitch(this, function(error) {
-                        logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
+                        mx.ui.error("An error ocurred while executing nanoflow");
                     })
                 });
             }
