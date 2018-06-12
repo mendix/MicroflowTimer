@@ -191,7 +191,7 @@ define([
                         }
                     }),
                     error: lang.hitch(this, function(error) {
-                        logger.error(this.id + ": An error ocurred while executing microflow: ", error);
+                        mx.ui.error("An error ocurred while executing microflow" + error.message);
                     })
                 };
                 if (!mx.version || mx.version && parseInt(mx.version.split(".")[0]) < 7) {
@@ -225,7 +225,7 @@ define([
                         }
                     }),
                     error: lang.hitch(this, function(error) {
-                        mx.ui.error("An error ocurred while executing nanoflow");
+                        mx.ui.error("An error ocurred while executing nanoflow" + error.message);
                     })
                 });
             }
