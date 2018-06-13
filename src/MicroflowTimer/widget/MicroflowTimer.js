@@ -164,10 +164,12 @@ define([
         },
 
         _executeEvent: function() {
-            if(this.callEvent === "callMicroflow") {
+            if(this.callEvent === "callMicroflow" && this.microflow) {
                 this._execMf()
-            } else {
+            } else if (this.callEvent === "callNanoflow" && this.nanoflow){
                 this._executeNanoFlow()
+            } else {
+                mx.ui.error("No action specified for " + this.callEvent)
             }
         },
 
@@ -208,11 +210,6 @@ define([
         },
 
         _executeNanoFlow: function() {
-            logger.debug(this.id + "._executeNanoFlow");
-            if (!this._contextObj) {
-                return;
-            }
-
             if (this.nanoflow.nanoflow && this.mxcontext) {
                 mx.data.callNanoflow({
                     nanoflow: this.nanoflow,

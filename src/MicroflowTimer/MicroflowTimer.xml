@@ -8,17 +8,17 @@
         <property key="interval" type="integer" defaultValue="30000">
             <caption>Interval (in ms)</caption>
             <category>Behavior</category>
-            <description>Defines how often the microflow is called. Note that the inteval is in milliseconds, so the default, 30000, equals 30 seconds. Note that, unless Execute Once is set to true, the microflow is invoked immediately after loading the form for the first time</description>
+            <description>Defines how often the microflow or nanoflow is called. Note that the inteval is in milliseconds, so the default, 30000, equals 30 seconds. Note that, unless Execute Once is set to true, the microflow is invoked immediately after loading the form for the first time</description>
         </property>
         <property key="once" type="boolean" defaultValue="false">
             <caption>Execute once</caption>
             <category>Behavior</category>
-            <description>If true, the microflow will be invoked only once, and interval defines after how many seconds</description>
+            <description>If true, the microflow or nanoflow will be invoked only once, and interval defines after how many seconds</description>
         </property>
         <property key="startatonce" type="boolean" defaultValue="true">
             <caption>Start at once</caption>
             <category>Behavior</category>
-            <description>If true (and execute once is false), the microflow will be invoked the first time if the widget has loaded. If false, the microflow will be invoked the first time after interval has passed</description>
+            <description>If true (and execute once is false), the microflow or nanoflow will be invoked the first time if the widget has loaded. If false, the microflow or nanoflow will be invoked the first time after interval has passed</description>
         </property>
         <property key="callEvent" type="enumeration" defaultValue="callMicroflow">
             <caption>Call event</caption>
@@ -52,7 +52,7 @@
         <property key="intervalAttr" type="attribute" required="false">
             <caption>Interval Attribute (in ms)</caption>
             <category>Context</category>
-            <description>Defines how often the microflow is called using an attribute. If set, overrides the interval specified below</description>
+            <description>Defines how often the microflow or nanoflow is called using an attribute. If set, overrides the interval specified below</description>
             <attributeTypes>
                 <attributeType name="Integer"/>
             </attributeTypes>
