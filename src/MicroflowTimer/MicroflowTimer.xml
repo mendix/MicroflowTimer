@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="MicroflowTimer.widget.MicroflowTimer" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>ActionTimer</name>
+    <name>MicroflowTimer</name>
     <description>The description of this widget</description>
     <icon></icon>
 
@@ -21,7 +21,7 @@
             <description>If true (and execute once is false), the microflow or nanoflow will be invoked the first time if the widget has loaded. If false, the microflow or nanoflow will be invoked the first time after interval has passed</description>
         </property>
         <property key="callEvent" type="enumeration" defaultValue="callMicroflow">
-            <caption>Call event</caption>
+            <caption>Timer event</caption>
             <category>Behavior</category>
             <description/>
             <enumerationValues>

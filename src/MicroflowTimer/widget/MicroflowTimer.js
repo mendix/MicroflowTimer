@@ -26,8 +26,12 @@ define([
         _timeout: null,
         _timerStarted: false,
 
-        postcreate: function() {
+        postCreate: function() {
             this._handles = [];
+
+            if(!(this.microflow && this.callEvent == "callMicroflow" || this.nanoflow.nanoflow && this.callEvent == "callNanoflow")) {
+                mx.ui.error("No action specified for " + this.callEvent)
+            }
         },
 
         update: function (obj, callback) {
@@ -166,10 +170,10 @@ define([
         _executeEvent: function() {
             if(this.callEvent === "callMicroflow" && this.microflow) {
                 this._execMf()
-            } else if (this.callEvent === "callNanoflow" && this.nanoflow){
+            } else if (this.callEvent === "callNanoflow" && this.nanoflow.nanoflow){
                 this._executeNanoFlow()
             } else {
-                mx.ui.error("No action specified for " + this.callEvent)
+                return;
             }
         },
 
@@ -183,6 +187,7 @@ define([
                 var mfObject = {
                     params: {
                         actionname: this.microflow,
+                        origin: this.mxform,
                         applyto: "selection",
                         guids: [this._contextObj.getGuid()]
                     },
@@ -193,18 +198,10 @@ define([
                         }
                     }),
                     error: lang.hitch(this, function(error) {
+                        logger.error(this.id + ": An error ocurred while executing microflow: ", error);
                         mx.ui.error("An error ocurred while executing microflow" + error.message);
                     })
                 };
-                if (!mx.version || mx.version && parseInt(mx.version.split(".")[0]) < 7) {
-                    // < Mendix 7
-                    mfObject.store = {
-                        caller: this.mxform
-                    };
-                } else {
-                    mfObject.origin = this.mxform;
-                }
-
                 mx.data.action(mfObject, this);
             }
         },
@@ -222,6 +219,7 @@ define([
                         }
                     }),
                     error: lang.hitch(this, function(error) {
+                        logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
                         mx.ui.error("An error ocurred while executing nanoflow" + error.message);
                     })
                 });

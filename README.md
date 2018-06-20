@@ -1,6 +1,6 @@
-# ActionTimer [![Support](https://img.shields.io/badge/Mendix%20Support%3A-Platform-green.svg)](https://docs.mendix.com/community/app-store/app-store-content-support)
+# Microflow Timer [![Support](https://img.shields.io/badge/Mendix%20Support%3A-Platform-green.svg)](https://docs.mendix.com/community/app-store/app-store-content-support)
 
-This widget can be used to time and execute a Microflow as long as a certain form is open. The microflow or nanoflow can be executed once or repeatedly, in which case it will not stop until it returns false or until the form is closed.
+This widget can be used to time and execute a Microflow or Nanoflow as long as a certain form is open. The microflow or nanoflow can be executed once or repeatedly, in which case it will not stop until it returns false or until the form is closed.
 
 ## Contributing
 
@@ -16,11 +16,11 @@ For more information on contributing to this repository visit [Contributing to a
 ## Features and limitations
 
 * Adds timed behavior to your applications.
-* Nanoflow support starts from Mendix 7.13.1.
+* Run a Microflow or Nanoflow.
 
 ## Configuration
 
-* The widget requires a dataview or template grid context. This object will be send as argument to the invoked microflow.
+* The widget requires a dataview or template grid context. This object will be send as argument to the invoked microflow or nanoflow.
 
 ## Properties
 
