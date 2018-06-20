@@ -1,6 +1,6 @@
-# MicroflowTimer [![Support](https://img.shields.io/badge/Mendix%20Support%3A-Platform-green.svg)](https://docs.mendix.com/community/app-store/app-store-content-support)
+# ActionTimer [![Support](https://img.shields.io/badge/Mendix%20Support%3A-Platform-green.svg)](https://docs.mendix.com/community/app-store/app-store-content-support)
 
-This widget can be used to time and execute a Microflow as long as a certain form is open. The microflow can be executed once or repeatedly, in which case it will not stop until it returns false or until the form is closed.
+This widget can be used to time and execute a Microflow as long as a certain form is open. The microflow or nanoflow can be executed once or repeatedly, in which case it will not stop until it returns false or until the form is closed.
 
 ## Contributing
 

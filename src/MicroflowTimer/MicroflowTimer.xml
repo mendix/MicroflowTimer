@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="MicroflowTimer.widget.MicroflowTimer" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>MicroflowTimer</name>
+    <name>ActionTimer</name>
     <description>The description of this widget</description>
     <icon></icon>
 
