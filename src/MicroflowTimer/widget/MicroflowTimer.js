@@ -12,7 +12,7 @@ define([
         interval: 30000,
         once: false,
         startatonce: true,
-        callEvent: "callMicroflow" | "callNanoflow",
+        callEvent: "", // "callMicroflow" | "callNanoflow"
         microflow: "",
         nanoflow: null,
         firstIntervalAttr: null,
