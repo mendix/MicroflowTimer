@@ -12,7 +12,9 @@ define([
         interval: 30000,
         once: false,
         startatonce: true,
+        callEvent: "", // "callMicroflow" | "callNanoflow"
         microflow: "",
+        nanoflow: null,
         firstIntervalAttr: null,
         intervalAttr: null,
         timerStatusAttr: null,
@@ -24,8 +26,12 @@ define([
         _timeout: null,
         _timerStarted: false,
 
-        postcreate: function() {
+        postCreate: function() {
             this._handles = [];
+
+            if(!(this.microflow && this.callEvent == "callMicroflow" || this.nanoflow.nanoflow && this.callEvent == "callNanoflow")) {
+                mx.ui.error("No action specified for " + this.callEvent)
+            }
         },
 
         update: function (obj, callback) {
@@ -113,7 +119,7 @@ define([
 
         _runTimer: function() {
             logger.debug(this.id + "._runTimer", this.interval);
-            if (this.microflow !== "" && this._contextObj) {
+            if (this.callEvent !== "" && this._contextObj) {
                 this._timerStarted = true;
 
                 //if there's a first interval, get and use that first, then use the regular interval
@@ -121,25 +127,25 @@ define([
                     var firstInterval = this._contextObj.get(this.firstIntervalAttr);
 
                     if (this.once) {
-                        this._timeout = setTimeout(lang.hitch(this, this._execMf), firstInterval);
+                        this._timeout = setTimeout(lang.hitch(this, this._executeEvent), firstInterval);
                     } else {
                         if (this.startatonce) {
-                            this._execMf();
+                            this._executeEvent();
                         }
                         this._timeout = setTimeout(lang.hitch(this, function() {
-                            this._execMf();
-                            this._timer = setInterval(lang.hitch(this, this._execMf), this.interval);
+                            this._executeEvent();
+                            this._timer = setInterval(lang.hitch(this, this._executeEvent), this.interval);
                         }), firstInterval);
                     }
                     //otherwise just use the regulat interval
                 } else {
                     if (this.once) {
-                        this._timeout = setTimeout(lang.hitch(this, this._execMf), this.interval);
+                        this._timeout = setTimeout(lang.hitch(this, this._executeEvent), this.interval);
                     } else {
                         if (this.startatonce) {
-                            this._execMf();
+                            this._executeEvent();
                         }
-                        this._timer = setInterval(lang.hitch(this, this._execMf), this.interval);
+                        this._timer = setInterval(lang.hitch(this, this._executeEvent), this.interval);
                     }
                 }
             }
@@ -161,6 +167,16 @@ define([
             }
         },
 
+        _executeEvent: function() {
+            if(this.callEvent === "callMicroflow" && this.microflow) {
+                this._execMf()
+            } else if (this.callEvent === "callNanoflow" && this.nanoflow.nanoflow){
+                this._executeNanoFlow()
+            } else {
+                return;
+            }
+        },
+
         _execMf: function() {
             logger.debug(this.id + "._execMf");
             if (!this._contextObj) {
@@ -171,6 +187,7 @@ define([
                 var mfObject = {
                     params: {
                         actionname: this.microflow,
+                        origin: this.mxform,
                         applyto: "selection",
                         guids: [this._contextObj.getGuid()]
                     },
@@ -182,18 +199,30 @@ define([
                     }),
                     error: lang.hitch(this, function(error) {
                         logger.error(this.id + ": An error ocurred while executing microflow: ", error);
+                        mx.ui.error("An error ocurred while executing microflow" + error.message);
                     })
                 };
-                if (!mx.version || mx.version && parseInt(mx.version.split(".")[0]) < 7) {
-                    // < Mendix 7
-                    mfObject.store = {
-                        caller: this.mxform
-                    };
-                } else {
-                    mfObject.origin = this.mxform;
-                }
-
                 mx.data.action(mfObject, this);
+            }
+        },
+
+        _executeNanoFlow: function() {
+            if (this.nanoflow.nanoflow && this.mxcontext) {
+                mx.data.callNanoflow({
+                    nanoflow: this.nanoflow,
+                    origin: this.mxform,
+                    context: this.mxcontext,
+                    callback: lang.hitch(this, function(result) {
+                        if (!result) {
+                            logger.debug(this.id + "._executeNanoFlow callback, stopping timer");
+                            this._stopTimer();
+                        }
+                    }),
+                    error: lang.hitch(this, function(error) {
+                        logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
+                        mx.ui.error("An error ocurred while executing nanoflow" + error.message);
+                    })
+                });
             }
         },
 
