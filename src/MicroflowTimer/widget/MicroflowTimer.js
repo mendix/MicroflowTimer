@@ -187,7 +187,6 @@ define([
                 var mfObject = {
                     params: {
                         actionname: this.microflow,
-                        origin: this.mxform,
                         applyto: "selection",
                         guids: [this._contextObj.getGuid()]
                     },
@@ -202,6 +201,15 @@ define([
                         mx.ui.error("An error ocurred while executing microflow" + error.message);
                     })
                 };
+
+                if (!mx.version || mx.version && parseInt(mx.version.split(".")[0]) < 6) {
+                    mfObject.store = {
+                        caller: this.mxform
+                    };
+                } else {
+                    mfObject.origin = this.mxform;
+                }
+
                 mx.data.action(mfObject, this);
             }
         },
@@ -228,25 +236,18 @@ define([
 
         // Reset subscriptions.
         _resetSubscriptions: function() {
-            // Release handles on previous object, if any.
-            if (this._handles) {
-                dojoArray.forEach(this._handles, function (handle) {
-                    this.unsubscribe(handle);
-                });
-
-                this._handles = [];
-            }
+            this.unsubscribeAll();
 
             // When a mendix object exists create subscribtions.
             if (this._contextObj && this.timerStatusAttr) {
-                var _objectHandle = this.subscribe({
+                this.subscribe({
                     guid: this._contextObj.getGuid(),
                     callback: lang.hitch(this, function(guid) {
                         this._checkTimerStatus();
                     })
                 });
 
-                var _attrHandle = this.subscribe({
+                this.subscribe({
                     guid: this._contextObj.getGuid(),
                     attr: this.timerStatusAttr,
                     callback: lang.hitch(this, function(guid, attr, attrValue) {
@@ -254,15 +255,13 @@ define([
                     })
                 });
 
-                var _attrHandle2 = this.subscribe({
+                this.subscribe({
                     guid: this._contextObj.getGuid(),
                     attr: this.intervalAttr,
                     callback: lang.hitch(this, function(guid, attr, attrValue) {
                         this._intervalChange();
                     })
                 });
-
-                this._handles = [_objectHandle, _attrHandle, _attrHandle2];
             }
         },
 
