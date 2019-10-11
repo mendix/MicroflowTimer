@@ -18,6 +18,7 @@ define([
         firstIntervalAttr: null,
         intervalAttr: null,
         timerStatusAttr: null,
+		showerrorpopup: false,
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handles: null,
@@ -198,7 +199,9 @@ define([
                     }),
                     error: lang.hitch(this, function(error) {
                         logger.error(this.id + ": An error ocurred while executing microflow: ", error);
-                        mx.ui.error("An error ocurred while executing microflow" + error.message);
+						if (this.showerrorpopup) {
+                            mx.ui.error("An error ocurred while executing microflow" + error.message);
+                        }
                     })
                 };
 
@@ -228,7 +231,9 @@ define([
                     }),
                     error: lang.hitch(this, function(error) {
                         logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
-                        mx.ui.error("An error ocurred while executing nanoflow" + error.message);
+						if (this.showerrorpopup) {
+                            mx.ui.error("An error ocurred while executing nanoflow" + error.message);
+                        }
                     })
                 });
             }
