@@ -18,7 +18,7 @@ define([
         firstIntervalAttr: null,
         intervalAttr: null,
         timerStatusAttr: null,
-		showerrorpopup: false,
+		showerrorpopup: true,
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handles: null,
