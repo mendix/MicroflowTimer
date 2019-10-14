@@ -65,7 +65,7 @@
                 <attributeType name="Boolean"/>
             </attributeTypes>
         </property>
-		<property key="showerrorpopup" type="boolean" defaultValue="false">
+		<property key="showerrorpopup" type="boolean" defaultValue="true">
             <caption>Show error in a pop-up</caption>
             <category>Behavior</category>
             <description>If true, the microflow or nanoflow execution errors will be shown in a pop-up.</description>
