@@ -198,7 +198,6 @@ define([
                     }),
                     error: lang.hitch(this, function(error) {
                         logger.error(this.id + ": An error ocurred while executing microflow: ", error);
-                        mx.ui.error("An error ocurred while executing microflow" + error.message);
                     })
                 };
 
@@ -228,7 +227,6 @@ define([
                     }),
                     error: lang.hitch(this, function(error) {
                         logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
-                        mx.ui.error("An error ocurred while executing nanoflow" + error.message);
                     })
                 });
             }

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <widget id="MicroflowTimer.widget.MicroflowTimer" needsEntityContext="true" offlineCapable="true" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>MicroflowTimer</name>
-    <description>The description of this widget</description>
+    <name>Microflow Timer</name>
+    <description>Time based call microflow or nanoflow action</description>
     <icon></icon>
-
     <properties>
         <property key="interval" type="integer" defaultValue="30000">
             <caption>Interval (in ms)</caption>
