@@ -257,7 +257,7 @@ define([
                     guid: this._contextObj.getGuid(),
                     attr: this.intervalAttr,
                     callback: lang.hitch(this, function(guid, attr, attrValue) {
-                        this._intervalChange();
+                        this._intervalChange(parseInt(attrValue.toFixed(0)));
                     })
                 });
             }
