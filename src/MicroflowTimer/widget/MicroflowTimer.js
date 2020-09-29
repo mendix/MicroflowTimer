@@ -26,6 +26,8 @@ define([
         _timeout: null,
         _timerStarted: false,
 
+        _flowRunning: false,
+
         postCreate: function() {
             this._handles = [];
 
@@ -168,6 +170,12 @@ define([
         },
 
         _executeEvent: function() {
+            if (this._flowRunning === true) {
+                return;
+              }
+  
+              this._flowRunning = true;
+  
             if(this.callEvent === "callMicroflow" && this.microflow) {
                 this._execMf()
             } else if (this.callEvent === "callNanoflow" && this.nanoflow.nanoflow){
@@ -195,9 +203,11 @@ define([
                             logger.debug(this.id + "._execMf callback, stopping timer");
                             this._stopTimer();
                         }
+                        this._flowRunning = false;
                     }),
                     error: lang.hitch(this, function(error) {
                         logger.error(this.id + ": An error ocurred while executing microflow: ", error);
+                        this._flowRunning = false;
                     })
                 };
 
@@ -224,9 +234,11 @@ define([
                             logger.debug(this.id + "._executeNanoFlow callback, stopping timer");
                             this._stopTimer();
                         }
+                        this._flowRunning = false;
                     }),
                     error: lang.hitch(this, function(error) {
                         logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
+                        this._flowRunning = false;
                     })
                 });
             }
