@@ -26,16 +26,18 @@ define([
         _timeout: null,
         _timerStarted: false,
 
+        _flowRunning: false,
+
         postCreate: function() {
             this._handles = [];
 
-            if(!(this.microflow && this.callEvent == "callMicroflow" || this.nanoflow.nanoflow && this.callEvent == "callNanoflow")) {
-                mx.ui.error("No action specified for " + this.callEvent)
+            if(!(this.microflow && this.callEvent === "callMicroflow" || this.nanoflow.nanoflow && this.callEvent === "callNanoflow")) {
+                mx.ui.error("No action specified for " + this.callEvent);
             }
         },
 
         update: function (obj, callback) {
-            logger.debug(this.id + ".update");
+            mx.logger.debug(this.id + ".update");
 
             this._contextObj = obj;
             this._resetSubscriptions();
@@ -59,7 +61,7 @@ define([
         },
 
         _checkTimerStatus: function() {
-            logger.debug(this.id + "._checkStatus");
+            mx.logger.debug(this.id + "._checkStatus");
 
             var running, newInterval;
 
@@ -107,7 +109,7 @@ define([
 
         //Called when the optional timer interval attribute is changed
         _intervalChange: function (newInterval) {
-            logger.debug(this.id + "._intervalChange");
+            mx.logger.debug(this.id + "._intervalChange");
 
             this.interval = newInterval;
 
@@ -118,7 +120,7 @@ define([
         },
 
         _runTimer: function() {
-            logger.debug(this.id + "._runTimer", this.interval);
+            mx.logger.debug(this.id + "._runTimer", this.interval);
             if (this.callEvent !== "" && this._contextObj) {
                 this._timerStarted = true;
 
@@ -152,33 +154,39 @@ define([
         },
 
         _stopTimer: function() {
-            logger.debug(this.id + "._stopTimer");
+            mx.logger.debug(this.id + "._stopTimer");
             this._timerStarted = false;
 
             if (this._timer !== null) {
-                logger.debug(this.id + "._stopTimer timer cleared");
+                mx.logger.debug(this.id + "._stopTimer timer cleared");
                 clearInterval(this._timer);
                 this._timer = null;
             }
             if (this._timeout !== null) {
-                logger.debug(this.id + "._stopTimer timeout cleared");
+                mx.logger.debug(this.id + "._stopTimer timeout cleared");
                 clearTimeout(this._timeout);
                 this._timeout = null;
             }
         },
 
         _executeEvent: function() {
+            if (this._flowRunning === true) {
+                return;
+              }
+
+              this._flowRunning = true;
+
             if(this.callEvent === "callMicroflow" && this.microflow) {
-                this._execMf()
+                this._execMf();
             } else if (this.callEvent === "callNanoflow" && this.nanoflow.nanoflow){
-                this._executeNanoFlow()
+                this._executeNanoFlow();
             } else {
                 return;
             }
         },
 
         _execMf: function() {
-            logger.debug(this.id + "._execMf");
+            mx.logger.debug(this.id + "._execMf");
             if (!this._contextObj) {
                 return;
             }
@@ -192,12 +200,14 @@ define([
                     },
                     callback: lang.hitch(this, function(result) {
                         if (!result) {
-                            logger.debug(this.id + "._execMf callback, stopping timer");
+                            mx.logger.debug(this.id + "._execMf callback, stopping timer");
                             this._stopTimer();
                         }
+                        this._flowRunning = false;
                     }),
                     error: lang.hitch(this, function(error) {
-                        logger.error(this.id + ": An error ocurred while executing microflow: ", error);
+                        mx.logger.error(this.id + ": An error ocurred while executing microflow: ", error);
+                        this._flowRunning = false;
                     })
                 };
 
@@ -221,12 +231,14 @@ define([
                     context: this.mxcontext,
                     callback: lang.hitch(this, function(result) {
                         if (!result) {
-                            logger.debug(this.id + "._executeNanoFlow callback, stopping timer");
+                            mx.logger.debug(this.id + "._executeNanoFlow callback, stopping timer");
                             this._stopTimer();
                         }
+                        this._flowRunning = false;
                     }),
                     error: lang.hitch(this, function(error) {
-                        logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
+                        mx.logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
+                        this._flowRunning = false;
                     })
                 });
             }
@@ -264,7 +276,7 @@ define([
         },
 
         _executeCallback: function (cb, from) {
-            logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
+            mx.logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
             if (cb && typeof cb === "function") {
                 cb();
             }
@@ -272,4 +284,4 @@ define([
     });
 });
 
-require(["MicroflowTimer/widget/MicroflowTimer"])
+require(["MicroflowTimer/widget/MicroflowTimer"]);
