@@ -37,7 +37,7 @@ define([
         },
 
         update: function (obj, callback) {
-            mx.logger.debug(this.id + ".update");
+            console.debug(this.id + ".update");
 
             this._contextObj = obj;
             this._resetSubscriptions();
@@ -61,7 +61,7 @@ define([
         },
 
         _checkTimerStatus: function() {
-            mx.logger.debug(this.id + "._checkStatus");
+            console.debug(this.id + "._checkStatus");
 
             var running, newInterval;
 
@@ -109,7 +109,7 @@ define([
 
         //Called when the optional timer interval attribute is changed
         _intervalChange: function (newInterval) {
-            mx.logger.debug(this.id + "._intervalChange");
+            console.debug(this.id + "._intervalChange");
 
             this.interval = newInterval;
 
@@ -120,7 +120,7 @@ define([
         },
 
         _runTimer: function() {
-            mx.logger.debug(this.id + "._runTimer", this.interval);
+            console.debug(this.id + "._runTimer", this.interval);
             if (this.callEvent !== "" && this._contextObj) {
                 this._timerStarted = true;
 
@@ -154,16 +154,16 @@ define([
         },
 
         _stopTimer: function() {
-            mx.logger.debug(this.id + "._stopTimer");
+            console.debug(this.id + "._stopTimer");
             this._timerStarted = false;
 
             if (this._timer !== null) {
-                mx.logger.debug(this.id + "._stopTimer timer cleared");
+                console.debug(this.id + "._stopTimer timer cleared");
                 clearInterval(this._timer);
                 this._timer = null;
             }
             if (this._timeout !== null) {
-                mx.logger.debug(this.id + "._stopTimer timeout cleared");
+                console.debug(this.id + "._stopTimer timeout cleared");
                 clearTimeout(this._timeout);
                 this._timeout = null;
             }
@@ -186,7 +186,7 @@ define([
         },
 
         _execMf: function() {
-            mx.logger.debug(this.id + "._execMf");
+            console.debug(this.id + "._execMf");
             if (!this._contextObj) {
                 return;
             }
@@ -200,13 +200,13 @@ define([
                     },
                     callback: lang.hitch(this, function(result) {
                         if (!result) {
-                            mx.logger.debug(this.id + "._execMf callback, stopping timer");
+                            console.debug(this.id + "._execMf callback, stopping timer");
                             this._stopTimer();
                         }
                         this._flowRunning = false;
                     }),
                     error: lang.hitch(this, function(error) {
-                        mx.logger.error(this.id + ": An error ocurred while executing microflow: ", error);
+                        console.error(this.id + ": An error ocurred while executing microflow: ", error);
                         this._flowRunning = false;
                     })
                 };
@@ -231,13 +231,13 @@ define([
                     context: this.mxcontext,
                     callback: lang.hitch(this, function(result) {
                         if (!result) {
-                            mx.logger.debug(this.id + "._executeNanoFlow callback, stopping timer");
+                            console.debug(this.id + "._executeNanoFlow callback, stopping timer");
                             this._stopTimer();
                         }
                         this._flowRunning = false;
                     }),
                     error: lang.hitch(this, function(error) {
-                        mx.logger.error(this.id + ": An error ocurred while executing nanoflow: ", error);
+                        console.error(this.id + ": An error ocurred while executing nanoflow: ", error);
                         this._flowRunning = false;
                     })
                 });
@@ -276,7 +276,7 @@ define([
         },
 
         _executeCallback: function (cb, from) {
-            mx.logger.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
+            console.debug(this.id + "._executeCallback" + (from ? " from " + from : ""));
             if (cb && typeof cb === "function") {
                 cb();
             }
